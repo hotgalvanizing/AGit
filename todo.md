@@ -1,0 +1,15 @@
+# TODO
+
+- 图片加载ImageLoader更换为Glide或其他常用图片加载框架
+- 动态权限申请引入开源库，减少重复代码的书写
+- Toast封装为Util
+- 引入BugLy作为异常上报
+- ListView替换为RecyclerView 
+- 增加闪屏页面
+- 增加权限申请提示页面
+- 代码改造为Kotlin
+- Timber框架的使用
+- 数据库框架使用Room
+- 多Activity向多Fragment切换，Navigation
+- 引入腾讯UI框架统一View
+- 测试处理冲突的情况
