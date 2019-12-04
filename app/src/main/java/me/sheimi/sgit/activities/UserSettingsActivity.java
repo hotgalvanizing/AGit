@@ -7,6 +7,7 @@ import me.sheimi.sgit.fragments.SettingsFragment;
 
 /**
  * Activity for user settings
+ * @author steel
  */
 public class UserSettingsActivity extends SheimiFragmentActivity {
 
@@ -18,8 +19,9 @@ public class UserSettingsActivity extends SheimiFragmentActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        getFragmentManager().beginTransaction()
-                .replace(android.R.id.content, new SettingsFragment())
-                .commit();
+        getFragmentManager()
+            .beginTransaction()
+            .replace(android.R.id.content, new SettingsFragment())
+            .commit();
     }
 }

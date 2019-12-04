@@ -11,5 +11,7 @@
 - Timber框架的使用
 - 数据库框架使用Room
 - 多Activity向多Fragment切换，Navigation
-- 引入腾讯UI框架统一View
+- 引入腾讯UI框架、XUI统一View
 - 测试处理冲突的情况
+- ssh的生成逻辑
+

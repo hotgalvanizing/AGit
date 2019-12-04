@@ -10,13 +10,14 @@ import java.io.File;
 import java.io.FileFilter;
 
 import me.sheimi.sgit.R;
-import me.sheimi.sgit.SGitApplication;
 import me.sheimi.sgit.database.models.Repo;
-import me.sheimi.sgit.preference.PreferenceHelper;
 
+/**
+ * repos的根存储位置，从设置页进入
+ *
+ * @author steel
+ */
 public class ExploreRootDirActivity extends FileExplorerActivity {
-
-
 
     @Override
     protected File getRootFolder() {
@@ -39,7 +40,7 @@ public class ExploreRootDirActivity extends FileExplorerActivity {
         return new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view,
-                    int position, long id) {
+                                    int position, long id) {
                 File file = mFilesListAdapter.getItem(position);
                 if (file.isDirectory()) {
                     setCurrentDir(file);
