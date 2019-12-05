@@ -9,6 +9,10 @@ import android.os.Environment;
 import android.view.View;
 import android.widget.AdapterView;
 
+/**
+ * 浏览文件  浏览仓库和导入秘钥
+ * @author Lenovo
+ */
 public class ExploreFileActivity extends FileExplorerActivity {
 
     @Override

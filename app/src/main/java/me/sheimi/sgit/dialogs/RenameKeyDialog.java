@@ -1,11 +1,5 @@
 package me.sheimi.sgit.dialogs;
 
-import java.io.File;
-
-import me.sheimi.android.utils.FsUtils;
-import me.sheimi.android.views.SheimiDialogFragment;
-import me.sheimi.sgit.R;
-import me.sheimi.sgit.activities.explorer.PrivateKeyManageActivity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
@@ -13,14 +7,23 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+
+import org.jetbrains.annotations.NotNull;
+
+import java.io.File;
+
+import me.sheimi.android.views.SheimiDialogFragment;
+import me.sheimi.sgit.R;
+import me.sheimi.sgit.activities.explorer.PrivateKeyManageActivity;
 import me.sheimi.sgit.ssh.PrivateKeyUtils;
 
 /**
- * Created by sheimi on 8/24/13.
+ * 对话框Fragment
+ *
+ * @author sheimi
+ * @date 8/24/13
  */
-
-public class RenameKeyDialog extends SheimiDialogFragment implements
-        View.OnClickListener, DialogInterface.OnClickListener {
+public class RenameKeyDialog extends SheimiDialogFragment implements View.OnClickListener, DialogInterface.OnClickListener {
 
     private File mFromFile;
     private String mFromPath;
@@ -28,6 +31,7 @@ public class RenameKeyDialog extends SheimiDialogFragment implements
     private PrivateKeyManageActivity mActivity;
     public static final String FROM_PATH = "from path";
 
+    @NotNull
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         super.onCreateDialog(savedInstanceState);
@@ -40,18 +44,15 @@ public class RenameKeyDialog extends SheimiDialogFragment implements
         mFromFile = new File(mFromPath);
 
         builder.setTitle(getString(R.string.dialog_rename_key_title));
-        View view = mActivity.getLayoutInflater().inflate(
-                R.layout.dialog_rename_key, null);
+        View view = mActivity.getLayoutInflater().inflate(R.layout.dialog_rename_key, null);
 
         builder.setView(view);
-        mNewFilename = (EditText) view.findViewById(R.id.newFilename);
+        mNewFilename = view.findViewById(R.id.newFilename);
         mNewFilename.setText(mFromFile.getName());
 
         // set button listener
-        builder.setNegativeButton(R.string.label_cancel,
-                new DummyDialogListener());
-        builder.setPositiveButton(R.string.label_rename,
-                new DummyDialogListener());
+        builder.setNegativeButton(R.string.label_cancel, new DummyDialogListener());
+        builder.setPositiveButton(R.string.label_rename, new DummyDialogListener());
 
         return builder.create();
     }
@@ -69,7 +70,7 @@ public class RenameKeyDialog extends SheimiDialogFragment implements
         if (dialog == null)
             return;
         Button positiveButton = (Button) dialog
-                .getButton(Dialog.BUTTON_POSITIVE);
+            .getButton(Dialog.BUTTON_POSITIVE);
         positiveButton.setOnClickListener(this);
     }
 
@@ -79,7 +80,7 @@ public class RenameKeyDialog extends SheimiDialogFragment implements
         if (newFilename.equals("")) {
             showToastMessage(R.string.alert_new_filename_required);
             mNewFilename
-                    .setError(getString(R.string.alert_new_filename_required));
+                .setError(getString(R.string.alert_new_filename_required));
             return;
         }
 
@@ -96,12 +97,12 @@ public class RenameKeyDialog extends SheimiDialogFragment implements
             return;
         }
         mFromFile.renameTo(file);
-	try {
-	    PrivateKeyUtils.getPublicKey(mFromFile).renameTo(PrivateKeyUtils.getPublicKey(file));
-	} catch (Exception e) {
-	    //TODO 
-	    e.printStackTrace();
-	}
+        try {
+            PrivateKeyUtils.getPublicKey(mFromFile).renameTo(PrivateKeyUtils.getPublicKey(file));
+        } catch (Exception e) {
+            //TODO
+            e.printStackTrace();
+        }
         mActivity.refreshList();
         dismiss();
     }

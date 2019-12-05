@@ -18,6 +18,11 @@ import me.sheimi.android.utils.Profile;
 import me.sheimi.sgit.R;
 import me.sheimi.sgit.adapters.FilesListAdapter;
 
+/**
+ * 有关文件浏览的Activity的抽象类
+ *
+ * @author Lenovo
+ */
 public abstract class FileExplorerActivity extends SheimiFragmentActivity {
 
     public static final String RESULT_PATH = "result_path";
@@ -46,14 +51,14 @@ public abstract class FileExplorerActivity extends SheimiFragmentActivity {
         mRootFolder = getRootFolder();
         mCurrentDir = mRootFolder;
 
-        mFileList = (ListView) findViewById(R.id.fileList);
-        mCurrentPathView = (TextView) findViewById(R.id.currentPath);
+        mFileList = findViewById(R.id.fileList);
+        mCurrentPathView = findViewById(R.id.currentPath);
         mCurrentPathView.setText(mCurrentDir.getPath());
 
-        mUpDirIcon = (ImageView) findViewById(R.id.upDirIcon);
+        mUpDirIcon = findViewById(R.id.upDirIcon);
         mUpDirIcon.setImageResource(Profile.getStyledResource(this, R.attr.ic_folder_fl));
 
-        mUpDir = (TextView) findViewById(R.id.upDir);
+        mUpDir = findViewById(R.id.upDir);
         mUpDir.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

@@ -76,7 +76,7 @@
                 android:value="com.manichord.mgit.repolist.RepoListActivity" />
         </activity>
 
-
+        <!--SSH管理页面-->
         <activity
             android:name=".activities.explorer.PrivateKeyManageActivity"
             android:label="@string/title_activity_private_key_manage"
@@ -86,7 +86,7 @@
                 android:value="com.manichord.mgit.repolist.RepoListActivity" />
         </activity>
 
-
+        <!--文件浏览页面-->
         <activity
             android:name=".activities.explorer.ExploreFileActivity"
             android:label="@string/title_activity_explore_file"

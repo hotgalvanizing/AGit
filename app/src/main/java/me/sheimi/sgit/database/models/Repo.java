@@ -513,6 +513,12 @@ public class Repo implements Comparable<Repo>, Serializable {
         }
     }
 
+    /**
+     * 设置本地仓库根目录
+     *
+     * @param context
+     * @param repoRoot
+     */
     public static void setLocalRepoRoot(Context context, File repoRoot) {
         PreferenceHelper prefs = ((SGitApplication) context.getApplicationContext()).getPrefenceHelper();
         File oldRoot = prefs.getRepoRoot();
