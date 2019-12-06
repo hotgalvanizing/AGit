@@ -45,6 +45,9 @@ import me.sheimi.sgit.repo.tasks.repo.CloneTask;
 import me.sheimi.sgit.ssh.PrivateKeyUtils;
 import timber.log.Timber;
 
+/**
+ * https://github.com/hotgalvanizing/TestAGitUse.git
+ */
 public class RepoListActivity extends SheimiFragmentActivity {
 
     private Context mContext;

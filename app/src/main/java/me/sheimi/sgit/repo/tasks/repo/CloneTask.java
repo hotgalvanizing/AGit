@@ -45,6 +45,7 @@ public class CloneTask extends RepoRemoteOpTask {
         return result;
     }
 
+    @Override
     protected void onPostExecute(Boolean isSuccess) {
         super.onPostExecute(isSuccess);
         if (isTaskCanceled()) {
