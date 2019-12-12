@@ -22,6 +22,7 @@ public class CheckoutFileTask extends RepoOpTask {
         return checkout();
     }
 
+    @Override
     protected void onPostExecute(Boolean isSuccess) {
         super.onPostExecute(isSuccess);
         if (mCallback != null) {

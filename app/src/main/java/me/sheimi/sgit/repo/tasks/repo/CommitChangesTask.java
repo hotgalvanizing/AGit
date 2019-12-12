@@ -44,6 +44,7 @@ public class CommitChangesTask extends RepoOpTask {
         return commit();
     }
 
+    @Override
     protected void onPostExecute(Boolean isSuccess) {
         super.onPostExecute(isSuccess);
         if (mCallback != null) {

@@ -31,6 +31,7 @@ public class MergeTask extends RepoOpTask {
         return mergeBranch();
     }
 
+    @Override
     protected void onPostExecute(Boolean isSuccess) {
         super.onPostExecute(isSuccess);
         if (mCallback != null) {

@@ -20,10 +20,24 @@ import me.sheimi.sgit.database.models.Repo;
 import me.sheimi.sgit.ssh.SgitTransportCallback;
 import timber.log.Timber;
 
+/**
+ * 克隆任务
+ *
+ * @author Lenovo
+ */
 public class CloneTask extends RepoRemoteOpTask {
 
+    /**
+     * 克隆任务的回调
+     */
     private final AsyncTaskCallback mCallback;
+    /**
+     * 是否地柜clone
+     */
     private final boolean mCloneRecursive;
+    /**
+     * StatusName
+     */
     private final String mCloneStatusName;
 
     public CloneTask(Repo repo, boolean cloneRecursive, String statusName, AsyncTaskCallback callback) {
@@ -33,6 +47,12 @@ public class CloneTask extends RepoRemoteOpTask {
         mCallback = callback;
     }
 
+    /**
+     * clone后台任务
+     *
+     * @param v
+     * @return
+     */
     @Override
     protected Boolean doInBackground(Void... v) {
         boolean result = cloneRepo();
@@ -52,19 +72,26 @@ public class CloneTask extends RepoRemoteOpTask {
             return;
         }
         if (isSuccess) {
+            //clone 成功以后，更新最后一次Commit信息
             mRepo.updateLatestCommitInfo();
             mRepo.updateStatus(RepoContract.REPO_STATUS_NULL);
         }
     }
 
+    /**
+     * 调用JGit执行Clone
+     *
+     * @return
+     */
     public boolean cloneRepo() {
         File localRepo = mRepo.getDir();
+
         CloneCommand cloneCommand = Git.cloneRepository()
-                .setURI(mRepo.getRemoteURL()).setCloneAllBranches(true)
-                .setProgressMonitor(new RepoCloneMonitor())
-                .setTransportConfigCallback(new SgitTransportCallback())
-                .setDirectory(localRepo)
-                .setCloneSubmodules(mCloneRecursive);
+            .setURI(mRepo.getRemoteURL()).setCloneAllBranches(true)
+            .setProgressMonitor(new RepoCloneMonitor())
+            .setTransportConfigCallback(new SgitTransportCallback())
+            .setDirectory(localRepo)
+            .setCloneSubmodules(mCloneRecursive);
 
         setCredentials(cloneCommand);
 
@@ -99,9 +126,15 @@ public class CloneTask extends RepoRemoteOpTask {
     @Override
     public void cancelTask() {
         super.cancelTask();
+        //取消任务删除数据库信息
         mRepo.deleteRepo();
     }
 
+    /**
+     * 重新开启一个Clone Task
+     *
+     * @return
+     */
     @Override
     public RepoRemoteOpTask getNewTask() {
         // need to call create repo again as when clone fails due auth error, the repo initially created gets deleted

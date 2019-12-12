@@ -27,6 +27,7 @@ public class StatusTask extends RepoOpTask {
         return status();
     }
 
+    @Override
     protected void onPostExecute(Boolean isSuccess) {
         super.onPostExecute(isSuccess);
         if (mCallback != null && isSuccess) {
@@ -34,6 +35,7 @@ public class StatusTask extends RepoOpTask {
         }
     }
 
+    @Override
     public void executeTask() {
         execute();
     }

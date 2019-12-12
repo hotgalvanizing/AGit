@@ -21,6 +21,7 @@ public class RebaseTask extends RepoOpTask {
         return rebase();
     }
 
+    @Override
     protected void onPostExecute(Boolean isSuccess) {
         super.onPostExecute(isSuccess);
         if (mCallback != null) {

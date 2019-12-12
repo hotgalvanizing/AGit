@@ -69,6 +69,7 @@ public class CommitDiffTask extends RepoOpTask {
         return true;
     }
 
+    @Override
     protected void onPostExecute(Boolean isSuccess) {
         super.onPostExecute(isSuccess);
         RevCommit retCommit = null;
@@ -158,6 +159,7 @@ public class CommitDiffTask extends RepoOpTask {
         }
     }
 
+    @Override
     public void executeTask() {
         execute();
     }

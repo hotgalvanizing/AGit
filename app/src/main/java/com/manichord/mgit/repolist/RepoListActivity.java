@@ -58,7 +58,14 @@ public class RepoListActivity extends SheimiFragmentActivity {
     private ActivityMainBinding binding;
 
     public enum ClickActions {
-        CLONE, CANCEL
+        /**
+         * clone
+         */
+        CLONE,
+        /**
+         * 取消
+         */
+        CANCEL
     }
 
     @Override
@@ -91,7 +98,10 @@ public class RepoListActivity extends SheimiFragmentActivity {
 
         mRepoListAdapter = new RepoListAdapter(this);
         binding.repoList.setAdapter(mRepoListAdapter);
+
+        //查询操作
         mRepoListAdapter.queryAllRepo();
+
         binding.repoList.setOnItemClickListener(mRepoListAdapter);
         binding.repoList.setOnItemLongClickListener(mRepoListAdapter);
         mContext = getApplicationContext();
@@ -155,14 +165,17 @@ public class RepoListActivity extends SheimiFragmentActivity {
         Intent intent;
         switch (item.getItemId()) {
             case R.id.action_new:
+                //克隆仓库
                 showCloneView();
                 return true;
             case R.id.action_import_repo:
+                //导入仓库
                 intent = new Intent(this, ImportRepositoryActivity.class);
                 startActivityForResult(intent, REQUEST_IMPORT_REPO);
                 forwardTransition();
                 return true;
             case R.id.action_settings:
+                //设置页
                 intent = new Intent(this, UserSettingsActivity.class);
                 startActivity(intent);
                 return true;
@@ -172,8 +185,9 @@ public class RepoListActivity extends SheimiFragmentActivity {
 
     public void configSearchAction(MenuItem searchItem) {
         SearchView searchView = (SearchView) searchItem.getActionView();
-        if (searchView == null)
+        if (searchView == null){
             return;
+        }
         SearchListener searchListener = new SearchListener();
         MenuItemCompat.setOnActionExpandListener(searchItem, searchListener);
         searchView.setIconifiedByDefault(true);
@@ -182,8 +196,9 @@ public class RepoListActivity extends SheimiFragmentActivity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (resultCode != Activity.RESULT_OK)
+        if (resultCode != Activity.RESULT_OK){
             return;
+        }
         switch (requestCode) {
             case REQUEST_IMPORT_REPO:
                 final String path = data.getExtras().getString(
@@ -244,6 +259,7 @@ public class RepoListActivity extends SheimiFragmentActivity {
 
     }
 
+    @Override
     public void finish() {
         rawfinish();
     }

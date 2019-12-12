@@ -31,30 +31,26 @@ public class RepoDbHelper extends SQLiteOpenHelper {
 
     public static String addSlashes(String text) {
         final StringBuffer sb = new StringBuffer(text.length() * 2);
-        final StringCharacterIterator iterator = new StringCharacterIterator(
-                text);
-
+        final StringCharacterIterator iterator = new StringCharacterIterator(text);
         char character = iterator.current();
-
         while (character != StringCharacterIterator.DONE) {
-            if (character == '"')
+            if (character == '"') {
                 sb.append("\\\"");
-            else if (character == '\'')
+            } else if (character == '\'') {
                 sb.append("\'\'");
-            else if (character == '\\')
+            } else if (character == '\\') {
                 sb.append("\\\\");
-            else if (character == '\n')
+            } else if (character == '\n') {
                 sb.append("\\n");
-            else if (character == '{')
+            } else if (character == '{') {
                 sb.append("\\{");
-            else if (character == '}')
+            } else if (character == '}') {
                 sb.append("\\}");
-            else
+            } else {
                 sb.append(character);
-
+            }
             character = iterator.next();
         }
-
         return sb.toString();
     }
 }

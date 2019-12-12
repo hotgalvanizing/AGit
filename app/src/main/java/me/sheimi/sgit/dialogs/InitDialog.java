@@ -21,7 +21,7 @@ import me.sheimi.sgit.repo.tasks.repo.InitLocalTask;
 /**
  * Created by sheimi on 8/24/13.
  */
-
+@Deprecated
 public class InitDialog extends SheimiDialogFragment implements
         View.OnClickListener {
 

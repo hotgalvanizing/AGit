@@ -25,6 +25,7 @@ public class CheckoutTask extends RepoOpTask {
         return checkout(mCommitName, mBranch);
     }
 
+    @Override
     protected void onPostExecute(Boolean isSuccess) {
         super.onPostExecute(isSuccess);
         if (mCallback != null) {

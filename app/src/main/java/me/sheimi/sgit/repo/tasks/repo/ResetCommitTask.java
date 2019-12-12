@@ -24,6 +24,13 @@ public class ResetCommitTask extends RepoOpTask {
         return reset();
     }
 
+    /**
+     * 接收线程任务的执行结果
+     * 将执行结果显示到UI组件
+     *
+     * @param isSuccess
+     */
+    @Override
     protected void onPostExecute(Boolean isSuccess) {
         super.onPostExecute(isSuccess);
         if (mCallback != null) {

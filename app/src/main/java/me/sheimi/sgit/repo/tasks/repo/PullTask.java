@@ -34,6 +34,11 @@ public class PullTask extends RepoRemoteOpTask {
         return result;
     }
 
+    /**
+     * 在主线程显示任务执行的进度
+     *
+     * @param progress
+     */
     @Override
     protected void onProgressUpdate(String... progress) {
         super.onProgressUpdate(progress);
@@ -42,6 +47,9 @@ public class PullTask extends RepoRemoteOpTask {
         }
     }
 
+    /**
+     * 执行线程任务前的操作
+     */
     @Override
     protected void onPreExecute() {
         super.onPreExecute();
@@ -50,6 +58,7 @@ public class PullTask extends RepoRemoteOpTask {
         }
     }
 
+    @Override
     protected void onPostExecute(Boolean isSuccess) {
         super.onPostExecute(isSuccess);
         if (mCallback != null) {

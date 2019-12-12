@@ -5,6 +5,7 @@ import me.sheimi.sgit.database.models.Repo;
 
 /**
  * Super class for Tasks that operate on a git remote
+ * @author Lenovo
  */
 
 public abstract class RepoRemoteOpTask extends RepoOpTask implements SheimiFragmentActivity.OnPasswordEntered {
@@ -22,7 +23,7 @@ public abstract class RepoRemoteOpTask extends RepoOpTask implements SheimiFragm
         if (savePassword) {
             mRepo.saveCredentials();
         }
-
+        //弹出输入用户名密码的弹窗，填写信息后，开启新的Clone任务
         mRepo.removeTask(this);
         getNewTask().executeTask();
     }
@@ -32,5 +33,10 @@ public abstract class RepoRemoteOpTask extends RepoOpTask implements SheimiFragm
 
     }
 
+    /**
+     * 重新开启CloneTask
+     *
+     * @return
+     */
     public abstract RepoRemoteOpTask getNewTask();
 }

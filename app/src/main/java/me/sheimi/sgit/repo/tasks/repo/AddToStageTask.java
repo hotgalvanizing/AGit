@@ -19,11 +19,12 @@ public class AddToStageTask extends RepoOpTask {
         return addToStage();
     }
 
+    @Override
     protected void onPostExecute(Boolean isSuccess) {
         super.onPostExecute(isSuccess);
     }
 
-    public boolean addToStage() {
+    private boolean addToStage() {
         try {
             mRepo.getGit().add().addFilepattern(mFilePattern).call();
         } catch (StopTaskException e) {

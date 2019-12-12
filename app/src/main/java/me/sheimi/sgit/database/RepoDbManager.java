@@ -14,6 +14,8 @@ import me.sheimi.android.utils.BasicFunctions;
 
 /**
  * Manage entries in the persisted database tracking local repo metadata.
+ *
+ * @author Lenovo
  */
 public class RepoDbManager {
 
@@ -23,7 +25,7 @@ public class RepoDbManager {
     private SQLiteDatabase mReadableDatabase;
     private RepoDbHelper mDbHelper;
 
-    private static Map<String, Set<RepoDbObserver>> mObservers = new HashMap<String, Set<RepoDbObserver>>();
+    private static Map<String, Set<RepoDbObserver>> mObservers = new HashMap<>();
 
     private RepoDbManager(Context context) {
         mDbHelper = new RepoDbHelper(context);
@@ -48,23 +50,25 @@ public class RepoDbManager {
     }
 
     public static void unregisterDbObserver(String table,
-            RepoDbObserver observer) {
+                                            RepoDbObserver observer) {
         Set<RepoDbObserver> set = mObservers.get(table);
-        if (set == null)
+        if (set == null) {
             return;
+        }
         set.remove(observer);
     }
 
     public static void notifyObservers(String table) {
         Set<RepoDbObserver> set = mObservers.get(table);
-        if (set == null)
+        if (set == null) {
             return;
+        }
         for (RepoDbObserver observer : set) {
             observer.nofityChanged();
         }
     }
 
-    public static void persistCredentials(long repoId,String username, String password) {
+    public static void persistCredentials(long repoId, String username, String password) {
         ContentValues values = new ContentValues();
         if (username != null && password != null) {
             values.put(RepoContract.RepoEntry.COLUMN_NAME_USERNAME, username);
@@ -86,18 +90,18 @@ public class RepoDbManager {
 
     private Cursor _searchRepo(String query) {
         String selection = RepoContract.RepoEntry.COLUMN_NAME_LOCAL_PATH
-                + " LIKE ? OR " + RepoContract.RepoEntry.COLUMN_NAME_REMOTE_URL
-                + " LIKE ? OR "
-                + RepoContract.RepoEntry.COLUMN_NAME_LATEST_COMMITTER_UNAME
-                + " LIKE ? OR "
-                + RepoContract.RepoEntry.COLUMN_NAME_LATEST_COMMIT_MSG
-                + " LIKE ?";
+            + " LIKE ? OR " + RepoContract.RepoEntry.COLUMN_NAME_REMOTE_URL
+            + " LIKE ? OR "
+            + RepoContract.RepoEntry.COLUMN_NAME_LATEST_COMMITTER_UNAME
+            + " LIKE ? OR "
+            + RepoContract.RepoEntry.COLUMN_NAME_LATEST_COMMIT_MSG
+            + " LIKE ?";
         query = "%" + query + "%";
-        String[] selectionArgs = { query, query, query, query };
+        String[] selectionArgs = {query, query, query, query};
         Cursor cursor = mReadableDatabase.query(true,
-                RepoContract.RepoEntry.TABLE_NAME,
-                RepoContract.RepoEntry.ALL_COLUMNS, selection, selectionArgs,
-                null, null, null, null);
+            RepoContract.RepoEntry.TABLE_NAME,
+            RepoContract.RepoEntry.ALL_COLUMNS, selection, selectionArgs,
+            null, null, null, null);
         return cursor;
     }
 
@@ -107,9 +111,9 @@ public class RepoDbManager {
 
     private Cursor _queryAllRepo() {
         Cursor cursor = mReadableDatabase.query(true,
-                RepoContract.RepoEntry.TABLE_NAME,
-                RepoContract.RepoEntry.ALL_COLUMNS, null, null, null, null,
-                null, null);
+            RepoContract.RepoEntry.TABLE_NAME,
+            RepoContract.RepoEntry.ALL_COLUMNS, null, null, null, null,
+            null, null);
         return cursor;
     }
 
@@ -118,11 +122,16 @@ public class RepoDbManager {
     }
 
     private Cursor _getRepoById(long id) {
-        Cursor cursor = mReadableDatabase.query(true,
-                RepoContract.RepoEntry.TABLE_NAME,
-                RepoContract.RepoEntry.ALL_COLUMNS, RepoContract.RepoEntry._ID
-                        + "= ?", new String[] { String.valueOf(id) }, null,
-                null, null, null);
+        Cursor cursor = mReadableDatabase.query(
+            true,
+            RepoContract.RepoEntry.TABLE_NAME,
+            RepoContract.RepoEntry.ALL_COLUMNS,
+            RepoContract.RepoEntry._ID + "= ?",
+            new String[]{String.valueOf(id)},
+            null,
+            null,
+            null,
+            null);
         if (cursor.getCount() < 1) {
             cursor.close();
             return null;
@@ -140,21 +149,28 @@ public class RepoDbManager {
         updateRepo(repoId, values);
     }
 
+    /**
+     * 创建Repo
+     *
+     * @param localPath 本地路径
+     * @param remoteURL 远程路径
+     * @param status    状态
+     * @return
+     */
     public static long createRepo(String localPath, String remoteURL, String status) {
         ContentValues values = new ContentValues();
         values.put(RepoContract.RepoEntry.COLUMN_NAME_LOCAL_PATH, localPath);
         values.put(RepoContract.RepoEntry.COLUMN_NAME_REMOTE_URL, remoteURL);
         values.put(RepoContract.RepoEntry.COLUMN_NAME_REPO_STATUS, status);
-
-        long id = getInstance().mWritableDatabase.insert(RepoContract.RepoEntry.TABLE_NAME,
-            null, values);
+        long id = getInstance().mWritableDatabase.insert(RepoContract.RepoEntry.TABLE_NAME, null, values);
+        //通知观察者
         notifyObservers(RepoContract.RepoEntry.TABLE_NAME);
         return id;
     }
 
     public static void updateRepo(long id, ContentValues values) {
         String selection = RepoContract.RepoEntry._ID + " = ?";
-        String[] selectionArgs = { String.valueOf(id) };
+        String[] selectionArgs = {String.valueOf(id)};
         getInstance().mWritableDatabase.update(RepoContract.RepoEntry.TABLE_NAME, values,
             selection, selectionArgs);
         notifyObservers(RepoContract.RepoEntry.TABLE_NAME);
@@ -166,9 +182,9 @@ public class RepoDbManager {
 
     private void _deleteRepo(long id) {
         String selection = RepoContract.RepoEntry._ID + " = ?";
-        String[] selectionArgs = { String.valueOf(id) };
+        String[] selectionArgs = {String.valueOf(id)};
         mWritableDatabase.delete(RepoContract.RepoEntry.TABLE_NAME, selection,
-                selectionArgs);
+            selectionArgs);
         notifyObservers(RepoContract.RepoEntry.TABLE_NAME);
     }
 

@@ -7,6 +7,10 @@ android {
     compileSdkVersion 27
     buildToolsVersion '27.0.3'
 
+    //添加这两行
+    aaptOptions.cruncherEnabled = false
+    aaptOptions.useNewCruncher = false
+
     defaultConfig {
         applicationId "com.manichord.mgit"
         minSdkVersion 16
@@ -53,6 +57,7 @@ dependencies {
     kapt "android.arch.lifecycle:compiler:$lifecycle_version"
 
     implementation 'com.jakewharton.timber:timber:4.5.1'
+
     implementation 'com.jcraft:jsch:0.1.54'
     implementation 'commons-io:commons-io:2.5'
     implementation 'org.eclipse.jgit:org.eclipse.jgit:3.7.1.201504261725-r'
@@ -60,9 +65,11 @@ dependencies {
     implementation 'com.scottyab:secure-preferences-lib:0.1.4'
     implementation 'ch.acra:acra:4.9.2'
     implementation 'org.conscrypt:conscrypt-android:1.1.0'
+
     debugImplementation 'com.facebook.stetho:stetho:1.5.0'
     debugImplementation 'com.facebook.stetho:stetho-timber:1.5.0'
     testImplementation 'junit:junit:4.12'
     testImplementation 'org.robolectric:robolectric:3.5'
     testImplementation 'org.robolectric:shadows-support-v4:3.4-rc2'
+    debugImplementation 'com.amitshekhar.android:debug-db:1.0.6'
 }

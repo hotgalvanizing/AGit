@@ -68,17 +68,17 @@ public class RepoDetailActivity extends SheimiFragmentActivity {
     private int mSelectedTab;
 
     @Override
-    protected void onActivityResult (int requestCode, int resultCode, Intent data) {
-	switch (requestCode) {
-	case BRANCH_CHOOSE_ACTIVITY:
-	    String branchName = mRepo.getBranchName();
-	    if (branchName == null) {
-		showToastMessage(R.string.error_something_wrong);
-		return;
-	    }
-	    reset(branchName);
-	    break;
-	}
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        switch (requestCode) {
+            case BRANCH_CHOOSE_ACTIVITY:
+                String branchName = mRepo.getBranchName();
+                if (branchName == null) {
+                    showToastMessage(R.string.error_something_wrong);
+                    return;
+                }
+                reset(branchName);
+                break;
+        }
     }
 
     @Override
@@ -104,9 +104,9 @@ public class RepoDetailActivity extends SheimiFragmentActivity {
         mCommitNameButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-		Intent intent = new Intent(RepoDetailActivity.this, BranchChooserActivity.class);
-		intent.putExtra(Repo.TAG, mRepo);
-		startActivityForResult(intent, BRANCH_CHOOSE_ACTIVITY);
+                Intent intent = new Intent(RepoDetailActivity.this, BranchChooserActivity.class);
+                intent.putExtra(Repo.TAG, mRepo);
+                startActivityForResult(intent, BRANCH_CHOOSE_ACTIVITY);
             }
         });
         String branchName = mRepo.getBranchName();
@@ -144,12 +144,12 @@ public class RepoDetailActivity extends SheimiFragmentActivity {
         mPullProgressContainer = findViewById(R.id.pullProgressContainer);
         mPullProgressContainer.setVisibility(View.GONE);
         mPullProgressBar = (ProgressBar) mPullProgressContainer
-                .findViewById(R.id.pullProgress);
+            .findViewById(R.id.pullProgress);
         mPullMsg = (TextView) mPullProgressContainer.findViewById(R.id.pullMsg);
         mPullLeftHint = (TextView) mPullProgressContainer
-                .findViewById(R.id.leftHint);
+            .findViewById(R.id.leftHint);
         mPullRightHint = (TextView) mPullProgressContainer
-                .findViewById(R.id.rightHint);
+            .findViewById(R.id.rightHint);
     }
 
     private void setupActionBar() {
@@ -214,7 +214,6 @@ public class RepoDetailActivity extends SheimiFragmentActivity {
     }
 
 
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.repo_detail, menu);
@@ -235,8 +234,7 @@ public class RepoDetailActivity extends SheimiFragmentActivity {
             case KeyEvent.KEYCODE_BACK:
             case KeyEvent.KEYCODE_DEL:
                 int position = mViewPager.getCurrentItem();
-                OnBackClickListener onBackClickListener = mTabItemPagerAdapter
-                        .getItem(position).getOnBackClickListener();
+                OnBackClickListener onBackClickListener = mTabItemPagerAdapter.getItem(position).getOnBackClickListener();
                 if (onBackClickListener != null) {
                     if (onBackClickListener.onClick())
                         return true;
@@ -282,8 +280,7 @@ public class RepoDetailActivity extends SheimiFragmentActivity {
         @Override
         public void onPreExecute() {
             mPullMsg.setText(mInitMsg);
-            Animation anim = AnimationUtils.loadAnimation(
-                    RepoDetailActivity.this, R.anim.fade_in);
+            Animation anim = AnimationUtils.loadAnimation(RepoDetailActivity.this, R.anim.fade_in);
             mPullProgressContainer.setAnimation(anim);
             mPullProgressContainer.setVisibility(View.VISIBLE);
             mPullLeftHint.setText(R.string.progress_left_init);
@@ -300,8 +297,7 @@ public class RepoDetailActivity extends SheimiFragmentActivity {
 
         @Override
         public void onPostExecute(Boolean isSuccess) {
-            Animation anim = AnimationUtils.loadAnimation(
-                    RepoDetailActivity.this, R.anim.fade_out);
+            Animation anim = AnimationUtils.loadAnimation(RepoDetailActivity.this, R.anim.fade_out);
             mPullProgressContainer.setAnimation(anim);
             mPullProgressContainer.setVisibility(View.GONE);
             reset();
@@ -350,10 +346,12 @@ public class RepoDetailActivity extends SheimiFragmentActivity {
         mRepo.getRemotes();
     }
 
-    class TabItemPagerAdapter extends FragmentPagerAdapter implements ViewPager.OnPageChangeListener, SearchView.OnQueryTextListener, MenuItemCompat.OnActionExpandListener {
+    class TabItemPagerAdapter extends FragmentPagerAdapter
+        implements ViewPager.OnPageChangeListener,
+        SearchView.OnQueryTextListener,
+        MenuItemCompat.OnActionExpandListener {
 
-        private final int[] PAGE_TITLE = { R.string.tab_files_label,
-                R.string.tab_commits_label, R.string.tab_status_label };
+        private final int[] PAGE_TITLE = {R.string.tab_files_label, R.string.tab_commits_label, R.string.tab_status_label};
 
         public TabItemPagerAdapter(FragmentManager fm) {
             super(fm);
@@ -384,9 +382,7 @@ public class RepoDetailActivity extends SheimiFragmentActivity {
         }
 
         @Override
-        public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-
-        }
+        public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) { }
 
         @Override
         public void onPageSelected(int position) {
@@ -397,9 +393,7 @@ public class RepoDetailActivity extends SheimiFragmentActivity {
         }
 
         @Override
-        public void onPageScrollStateChanged(int state) {
-
-        }
+        public void onPageScrollStateChanged(int state) { }
 
         @Override
         public boolean onQueryTextSubmit(String query) {

@@ -11,10 +11,21 @@ import me.sheimi.sgit.database.models.Repo;
 import me.sheimi.sgit.repo.tasks.SheimiAsyncTask;
 import timber.log.Timber;
 
+/**
+ * @author Lenovo
+ */
 public abstract class RepoOpTask extends SheimiAsyncTask<Void, String, Boolean> {
-
+    /**
+     * 构造中传递Repo
+     */
     protected Repo mRepo;
+    /**
+     * 是否执行了AddTask
+     */
     protected boolean mIsTaskAdded;
+    /**
+     * 提示信息文字
+     */
     private int mSuccessMsg = 0;
 
     public RepoOpTask(Repo repo) {
@@ -22,6 +33,7 @@ public abstract class RepoOpTask extends SheimiAsyncTask<Void, String, Boolean> 
         mIsTaskAdded = repo.addTask(this);
     }
 
+    @Override
     protected void onPostExecute(Boolean isSuccess) {
         super.onPostExecute(isSuccess);
         mRepo.removeTask(this);
@@ -46,19 +58,21 @@ public abstract class RepoOpTask extends SheimiAsyncTask<Void, String, Boolean> 
                 R.string.error_task_running);
     }
 
+    /**
+     * 设置凭证
+     *
+     * @param command
+     */
     protected void setCredentials(TransportCommand command) {
         String username = mRepo.getUsername();
         String password = mRepo.getPassword();
-
         if (username != null && password != null && !username.trim().isEmpty()
             && !password.trim().isEmpty()) {
-            UsernamePasswordCredentialsProvider auth = new UsernamePasswordCredentialsProvider(
-                username, password);
+            UsernamePasswordCredentialsProvider auth = new UsernamePasswordCredentialsProvider(username, password);
             command.setCredentialsProvider(auth);
         } else {
             Timber.d("no CredentialsProvider when no username/password provided");
         }
-
     }
 
     protected void handleAuthError(OnPasswordEntered onPassEntered) {

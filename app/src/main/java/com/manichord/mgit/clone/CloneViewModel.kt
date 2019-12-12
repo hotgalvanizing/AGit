@@ -12,40 +12,45 @@ import timber.log.Timber
 
 class CloneViewModel(application: Application) : AndroidViewModel(application) {
 
-    var remoteUrl : String = ""
+    var remoteUrl: String = ""
         set(value) {
             field = value
             localRepoName.value = stripGitExtension(stripUrlFromRepo(remoteUrl))
         }
 
-    val localRepoName : MutableLiveData<String> = MutableLiveData()
-    var cloneRecursively : Boolean = false
-    val initLocal : MutableLiveData<Boolean> = MutableLiveData()
+    val localRepoName: MutableLiveData<String> = MutableLiveData()
+    var cloneRecursively: Boolean = false
+    val initLocal: MutableLiveData<Boolean> = MutableLiveData()
 
-    var remoteUrlError : MutableLiveData<String?> = MutableLiveData()
-    var localRepoNameError : MutableLiveData<String?> = MutableLiveData()
+    var remoteUrlError: MutableLiveData<String?> = MutableLiveData()
+    var localRepoNameError: MutableLiveData<String?> = MutableLiveData()
 
-    val visible : MutableLiveData<Boolean> = MutableLiveData()
+    val visible: MutableLiveData<Boolean> = MutableLiveData()
 
     init {
         visible.value = false
         initLocal.value = false
     }
 
-    fun show(show : Boolean) {
+    fun show(show: Boolean) {
         visible.value = show
     }
 
-
+    /**
+     * 执行Clone or Init
+     */
     fun cloneRepo() {
         // FIXME: createRepo should not use user visible strings, instead will need to be refactored
         // to set an observable state
         if (initLocal.value as Boolean) {
             Timber.d("INIT LOCAL %s", localRepoName.value)
+            //初始化本地路径
             initLocalRepo()
         } else {
             Timber.d("CLONE REPO %s %s [%b]", localRepoName.value, remoteUrl, cloneRecursively)
+            //数据库中生成Clone的Repo信息
             val repo = Repo.createRepo(localRepoName.value, remoteUrl, "")
+            //开启克隆任务
             val task = CloneTask(repo, cloneRecursively, "", null)
             task.executeTask()
             remoteUrl = ""
@@ -53,14 +58,19 @@ class CloneViewModel(application: Application) : AndroidViewModel(application) {
         }
     }
 
-    fun validate() : Boolean {
+    fun validate(): Boolean {
         return if (initLocal.value as Boolean) {
             validateLocalName(localRepoName.value as String)
         } else validateRemoteUrl(remoteUrl) && validateLocalName(localRepoName.value as String)
     }
 
-    fun initLocalRepo() {
+    /**
+     * 初始化本地仓库
+     */
+    private fun initLocalRepo() {
+        //数据库中保存本地初始化的Repo信息
         val repo = Repo.createRepo(localRepoName.value, "local repository", "")
+        //执行初始化本地仓库的后台任务
         val task = InitLocalTask(repo)
         task.executeTask()
     }
@@ -94,8 +104,8 @@ class CloneViewModel(application: Application) : AndroidViewModel(application) {
     private fun validateLocalName(localName: String): Boolean {
         localRepoNameError.value = null
         if (localName.isBlank()) {
-           localRepoNameError.value = getApplication<SGitApplication>().getString((R.string.alert_localpath_required))
-           return false
+            localRepoNameError.value = getApplication<SGitApplication>().getString((R.string.alert_localpath_required))
+            return false
         }
         if (localName.contains("/")) {
             localRepoNameError.value = getApplication<SGitApplication>().getString((R.string.alert_localpath_format))

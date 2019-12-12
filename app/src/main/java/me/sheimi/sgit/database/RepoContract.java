@@ -12,13 +12,11 @@ public final class RepoContract {
 
     private static final String TEXT_TYPE = " TEXT ";
     private static final String INT_TYPE = " INTEGER ";
-    private static final String PRIMARY_KEY_TYPE = INT_TYPE + "PRIMARY KEY "
-            + "AUTOINCREMENT ";
+    private static final String PRIMARY_KEY_TYPE = INT_TYPE + "PRIMARY KEY " + "AUTOINCREMENT ";
     private static final String COMMA_SEP = ",";
     public static final String REPO_STATUS_NULL = "";
 
-    public RepoContract() {
-    }
+    public RepoContract() { }
 
     public static abstract class RepoEntry implements BaseColumns {
         public static final String TABLE_NAME = "repo";
@@ -54,13 +52,24 @@ public final class RepoContract {
             + COMMA_SEP + RepoEntry.COLUMN_NAME_LATEST_COMMIT_MSG + TEXT_TYPE
             + " )";
 
-    public static final String REPO_ENTRY_DROP = "DROP TABLE IF EXISTS "
-            + RepoEntry.TABLE_NAME;
+    public static final String REPO_ENTRY_DROP = "DROP TABLE IF EXISTS " + RepoEntry.TABLE_NAME;
 
+    /**
+     * 根据Cursor返回RepoId
+     *
+     * @param cursor
+     * @return
+     */
     public static int getRepoID(Cursor cursor) {
         return cursor.getInt(0);
     }
 
+    /**
+     * 根据Cursor获取LocalPath
+     *
+     * @param cursor
+     * @return
+     */
     public static String getLocalPath(Cursor cursor) {
         return cursor.getString(1);
     }

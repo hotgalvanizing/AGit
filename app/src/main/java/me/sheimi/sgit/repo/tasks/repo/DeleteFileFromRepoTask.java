@@ -27,6 +27,7 @@ public class DeleteFileFromRepoTask extends RepoOpTask {
         return removeFile();
     }
 
+    @Override
     protected void onPostExecute(Boolean isSuccess) {
         super.onPostExecute(isSuccess);
         if (mCallback != null) {

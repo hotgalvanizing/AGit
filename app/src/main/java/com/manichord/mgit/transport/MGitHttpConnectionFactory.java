@@ -54,15 +54,17 @@ import org.eclipse.jgit.transport.http.HttpConnection;
 import org.eclipse.jgit.transport.http.HttpConnectionFactory;
 
 /**
- * A factory returning instances of {@link JDKHttpConnection}
+ * A factory returning instances of {link JDKHttpConnection}
  *
  * @since 3.3
  */
 public class MGitHttpConnectionFactory implements HttpConnectionFactory {
+    @Override
     public HttpConnection create(URL url) throws IOException {
         return new MGitHttpConnection(url);
     }
 
+    @Override
     public HttpConnection create(URL url, Proxy proxy)
             throws IOException {
         return new MGitHttpConnection(url, proxy);

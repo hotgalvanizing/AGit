@@ -24,6 +24,7 @@ public class CherryPickTask extends RepoOpTask {
         return cherrypick();
     }
 
+    @Override
     protected void onPostExecute(Boolean isSuccess) {
         super.onPostExecute(isSuccess);
         if (mCallback != null) {

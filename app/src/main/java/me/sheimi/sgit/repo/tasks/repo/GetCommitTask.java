@@ -20,6 +20,7 @@ public class GetCommitTask extends RepoOpTask {
         public void postCommits(List<RevCommit> commits);
     }
 
+    @Override
     public void executeTask() {
         execute();
     }
@@ -35,6 +36,7 @@ public class GetCommitTask extends RepoOpTask {
         return getCommitsList();
     }
 
+    @Override
     protected void onPostExecute(Boolean isSuccess) {
         super.onPostExecute(isSuccess);
         if (mCallback != null) {

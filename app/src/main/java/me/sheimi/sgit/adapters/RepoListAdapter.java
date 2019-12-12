@@ -55,8 +55,7 @@ public class RepoListAdapter extends ArrayAdapter<Repo> implements
 
     public RepoListAdapter(Context context) {
         super(context, 0);
-        RepoDbManager.registerDbObserver(RepoContract.RepoEntry.TABLE_NAME,
-                this);
+        RepoDbManager.registerDbObserver(RepoContract.RepoEntry.TABLE_NAME, this);
         mActivity = (RepoListActivity) context;
     }
 
@@ -130,6 +129,7 @@ public class RepoListAdapter extends ArrayAdapter<Repo> implements
             holder.cancelBtn.setOnClickListener(new OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    //取消任务
                     repo.deleteRepo();
                     repo.cancelTask();
                 }
@@ -276,6 +276,12 @@ public class RepoListAdapter extends ArrayAdapter<Repo> implements
         }
     }
 
+    /**
+     * 展示
+     *
+     * @param context
+     * @param repo
+     */
     private void showRemoveRepoDialog(SheimiFragmentActivity context, final Repo repo) {
         context.showMessageDialog(
             R.string.dialog_delete_repo_title,
